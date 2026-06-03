@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Crypto Flow Desk | 主题币种实时对比</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav">
+        <strong>Crypto Flow Desk</strong>
+        <span id="sourceState">连接中</span>
+      </nav>
+      <section class="hero">
+        <p class="eyebrow">10s narrative monitor</p>
+        <h1>BTC + 回购/稳定币/AI/隐私主题币横向对比</h1>
+        <p>
+          只保留和 HYPE、ENA、NEAR/TAO、ZEC 类似的核心叙事币，用成交额、合约持仓、资金费率、24h 涨跌和量仓比做同屏比较。
+        </p>
+      </section>
+    </header>
+
+    <main>
+      <section class="controlBar" aria-label="刷新与筛选">
+        <div>
+          <span>更新时间</span>
+          <b id="lastUpdated">等待拉取</b>
+        </div>
+        <div>
+          <span>刷新倒计时</span>
+          <b id="nextRefresh">00:10</b>
+        </div>
+        <label>
+          自定义补充
+          <input id="focusInput" value="BTC,HYPE,ENA,ZEC,NEAR,TAO,FET,RENDER,WLD,ICP,PENDLE,ONDO,AAVE,MKR,DASH,ZEN,ROSE,MINA" />
+        </label>
+        <button id="refreshBtn" type="button">刷新</button>
+      </section>
+
+      <section class="stats" id="market">
+        <article>
+          <span>主题币数量</span>
+          <strong id="coinCount">-</strong>
+        </article>
+        <article>
+          <span>24h 强势</span>
+          <strong id="strongCount">-</strong>
+        </article>
+        <article>
+          <span>费率过热</span>
+          <strong id="hotFundingCount">-</strong>
+        </article>
+        <article>
+          <span>总成交额</span>
+          <strong id="totalVolume">-</strong>
+        </article>
+      </section>
+
+      <section class="section" id="influencers">
+        <div class="sectionHead">
+          <div>
+            <p class="eyebrow">Influencer Radar</p>
+            <h2>重点博主今日核心观点</h2>
+          </div>
+          <p>默认追踪 Bluntz、Arthur Hayes、Aylo、Ansem、based16z、insomniac。每 60 秒从后端读取一次，提炼币种、叙事、方向词和风险词。</p>
+        </div>
+        <div class="influencerPanel">
+          <div class="influencerTop">
+            <div>
+              <span>观点更新时间</span>
+              <b id="tweetUpdated">等待连接</b>
+            </div>
+            <div>
+              <span>下次观点刷新</span>
+              <b id="tweetRefresh">01:00</b>
+            </div>
+            <label>
+              追踪账号
+              <input id="handlesInput" value="Bluntz_Capital,CryptoHayes,alpha_pls,blknoiz06,based16z,insomniacxbt" />
+            </label>
+            <button id="tweetRefreshBtn" type="button">刷新观点</button>
+          </div>
+          <div id="tweetStatus" class="tweetStatus">正在等待后端连接。</div>
+          <div id="summaryCards" class="summaryCards"></div>
+          <div id="tweetCards" class="tweetCards"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="sectionHead">
+          <div>
+            <p class="eyebrow">Comparison</p>
+            <h2>一眼看交易量和持仓量</h2>
+          </div>
+          <p>条形越长代表横向排名越靠前。成交额强但持仓不跟，和持仓暴涨但成交不足，含义完全不同。</p>
+        </div>
+        <div class="compareGrid">
+          <article class="glassPanel">
+            <h3>成交额 Top 15</h3>
+            <div id="volumeBars" class="barList"></div>
+          </article>
+          <article class="glassPanel">
+            <h3>合约持仓 Top 15</h3>
+            <div id="oiBars" class="barList"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="sectionHead">
+          <div>
+            <p class="eyebrow">Heatmap</p>
+            <h2>资金费率与强弱热力</h2>
+          </div>
+          <p>红色代表费率或多头拥挤偏热，绿色代表量价偏强但不过热。只作为观察入口，不直接构成交易建议。</p>
+        </div>
+        <div id="heatGrid" class="heatGrid"></div>
+      </section>
+
+      <section class="section">
+        <div class="sectionHead">
+          <div>
+            <p class="eyebrow">Table</p>
+            <h2>主题精选币明细</h2>
+          </div>
+          <label class="searchLabel">
+            搜索
+            <input id="searchInput" type="search" placeholder="ZEC / NEAR / AI / PRIVACY" />
+          </label>
+        </div>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>币种</th>
+              <th>主题</th>
+                <th>价格</th>
+                <th>24h</th>
+                <th>成交额</th>
+                <th>合约持仓</th>
+                <th>量仓比</th>
+                <th>资金费率</th>
+                <th>观察</th>
+              </tr>
+            </thead>
+            <tbody id="coinRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="sectionHead">
+          <div>
+            <p class="eyebrow">Focus</p>
+            <h2>四类核心叙事篮子</h2>
+          </div>
+          <p>BTC 锚定；HYPE 类回购/协议收入；ENA 类稳定币/收益业务；NEAR/TAO 类 AI；ZEC 类隐私/抗量子预期。</p>
+        </div>
+        <div id="focusCards" class="focusCards"></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>数据：Binance USDT 永续公共接口；HYPE 等非 Binance 合约会显示示例补位。</span>
+      <span>刷新间隔：10 秒。请控制仓位，网页只做信息整理。</span>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
